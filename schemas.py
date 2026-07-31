@@ -1,7 +1,8 @@
 # schemas.py
 # Jack Graziani
 # creation date: July 30, 2026
-# Defining the type of data I want to pull from APIs
+# Defining the type of data I want to pull from APIs, make classes for them
+# note: st = short term, lt = long term
 
 from dataclasses import dataclass
 from typing import Optional
