@@ -1,7 +1,8 @@
 #interfaces.py
 #jack graziani
 #creation date: Jul 31, 2026
-# DESCRIPTION
+# uses abstract class to define input/output for data structure rather than being committed to using a single API
+
 
 from abc import ABC, abstractmethod
 from schemas import StockFullAnalysis
