@@ -1,8 +1,10 @@
 # backend.py
 # Jack Graziani
 # creation date: July 30, 2026
-# [ADD DESCRIPTION HERE]
+# Runs the logic of the back end
 
+# here is a description of the process
+# belongs in documentation rather than this file but that's what it is for now
 #===========================================
 """
 ----- (1) FINANCIAL HEALTH -----
