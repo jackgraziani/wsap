@@ -52,7 +52,10 @@ class YFinanceAdapter(StockDataInterface):
         # get the stock from yfinance
         stock = yf.Ticker(ticker)
 
-        info = stock.info or {}
+        try:
+            info = stock.info
+        except Exception:
+            info = {}
 
         try:
             bs = stock.balance_sheet
@@ -80,7 +83,7 @@ class YFinanceAdapter(StockDataInterface):
             fcf = self.extract_df(cf, "Free Cash Flow", 0),
             total_cash = self.extract_df(bs, "Cash Cash Equivalents And Short Term Investments", 0),
             ebit = self.extract_df(fin, "EBIT", 0),
-            interest_expense = self._safe_df_extract(fin, "Interest Expense", 0),
+            interest_expense = self.extract_df(fin, "Interest Expense", 0),
         )
 
         # extract value data
@@ -105,9 +108,7 @@ class YFinanceAdapter(StockDataInterface):
         treasury_yield = None
         try:
             fv_ticker = yf.Ticker("^FVX")
-            treasury_yield = self._safe_float(
-                fv_ticker.info.get("regularMarketPrice")
-            )
+            treasury_yield = self.convert_float_or_none(fv_ticker.info.get("regularMarketPrice"))
         except Exception:
             pass
 
@@ -119,4 +120,13 @@ class YFinanceAdapter(StockDataInterface):
             sp500_revenue_3yr_growth_rate_forecast = None,
             _5yr_treasury_yield = treasury_yield,
         )
+
+        return StockFullAnalysis(
+                ticker = ticker.upper(),
+                company_name = info.get("longName", "Unknown"),
+                sector = info.get("sector", "Unknown"),
+                health = health,
+                value = value,
+                growth = growth,
+            )
 
